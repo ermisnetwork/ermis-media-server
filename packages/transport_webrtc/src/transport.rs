@@ -135,7 +135,7 @@ impl<ES: 'static + MediaEdgeSecure> TransportWebrtc<ES> {
         rtc_ice_lite: bool,
     ) -> RpcResult<(Self, String, String)> {
         let offer = SdpOffer::from_sdp_string(offer).map_err(|_e| RpcError::new2(WebrtcError::InvalidSdp))?;
-        let rtc_config = Rtc::builder()
+        let mut rtc_config = Rtc::builder()
             .set_rtp_mode(true)
             .set_ice_lite(rtc_ice_lite)
             .set_dtls_cert(dtls_cert)
@@ -147,9 +147,9 @@ impl<ES: 'static + MediaEdgeSecure> TransportWebrtc<ES> {
             )
             .clear_codecs()
             .enable_opus(true)
-            .enable_h264(true)
+            // .enable_h264(true)
             .enable_bwe(Some(Bitrate::kbps(3000)));
-        // rtc_config.codec_config().add_h264(Pt::new_with_value(96), None, true, 6556703);
+        rtc_config.codec_config().add_h264(Pt::new_with_value(96), Some(Pt::new_with_value(114)), true, 4382751);
         let ice_ufrag = rtc_config.local_ice_credentials().as_ref().expect("should have ice credentials").ufrag.clone();
 
         let mut rtc = rtc_config.build();
