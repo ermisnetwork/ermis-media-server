@@ -16,4 +16,4 @@ media-server-utils = { path = "../media_utils" }
 media-server-protocol = { path = "../protocol" }
 media-server-secure = { path = "../media_secure" }
 media-server-core = { path = "../media_core" }
-str0m = "0.6"
+str0m = "0.7"
