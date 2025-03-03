@@ -15,7 +15,7 @@ prost = { workspace = true }
 tokio = { workspace = true, features = ["sync"] }
 lru = "0.12"
 async-trait = "0.1"
-sea-orm-migration = "1.1.0-rc.1"
+sea-orm-migration = "1.1.2"
 sea-orm = { version = "1.1.0-rc.1", features = [
     "sqlx-sqlite",
     "sqlx-postgres",
