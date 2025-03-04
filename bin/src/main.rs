@@ -5,9 +5,6 @@ use atm0s_media_server::{fetch_node_ip_alt_from_cloud, CloudProvider};
 use atm0s_sdn::NodeAddr;
 use clap::Parser;
 use media_server_protocol::cluster::ZoneId;
-use tracing_flame::FlameLayer;
-use tracing_subscriber::layer::SubscriberExt;
-use tracing_subscriber::Registry;
 
 const MAX_ZONE_ID: u32 = 1u32 << 24;
 
@@ -94,13 +91,6 @@ struct Args {
     server: server::ServerType,
 }
 
-fn init_tracing_subscriber() -> impl Drop {
-    let (flame_layer, _guard) = FlameLayer::with_file("./tracing.folded").unwrap();
-    let subscriber = Registry::default().with(flame_layer);
-    tracing::subscriber::set_global_default(subscriber).expect("Could not set global default");
-    _guard
-}
-
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
     rustls::crypto::ring::default_provider().install_default().expect("should install ring as default");
@@ -112,8 +102,7 @@ async fn main() {
     }
     let args: Args = Args::parse();
 
-    //
-    init_tracing_subscriber();
+    console_subscriber::init();
 
     assert!(args.sdn_zone_id < MAX_ZONE_ID, "sdn_zone_id must < {MAX_ZONE_ID}");
 

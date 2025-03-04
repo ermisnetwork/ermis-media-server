@@ -4,4 +4,3 @@ tarpaulin-report.html
 /maxminddb-data
 .vscode
 book
-bin/tracing.folded
